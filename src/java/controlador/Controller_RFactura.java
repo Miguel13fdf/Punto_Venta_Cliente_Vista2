@@ -12,9 +12,12 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import vistas.RFacturas_view;
 import vistas.RevisionProductos_Voew;
 import ws.Clasificacion;
+import ws.Factura;
 import ws.ItemFactura;
 import ws.Peticiones;
 import ws.Peticiones_Service;
@@ -26,8 +29,7 @@ import ws.Proveedores;
  * @author joelu
  */
 public class Controller_RFactura {
-
-    int factura = 0;
+    int fac=0;
     int producto = 0;
     int item = 0;
     RFacturas_view Rfactura_view;
@@ -53,7 +55,6 @@ public class Controller_RFactura {
     }
 
     public void registrar() {
-        factura = factura + 1;
         String ruc = Rfactura_view.getTxtruc().getText();
         int idpersona = Integer.valueOf(Rfactura_view.getJlabelidpersona().getText());
         Date selecteddate = Rfactura_view.getjDateChooser1().getDate();
@@ -62,14 +63,22 @@ public class Controller_RFactura {
         if (selecteddate != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             dateString = sdf.format(selecteddate);
+           
+
         } else {
             JOptionPane.showMessageDialog(Rfactura_view, "Elige una fecha correcta");
             return; // Exit the method if no date is selected
         }
-
+        XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateString);
         double descuento = Double.parseDouble(Rfactura_view.getTxtdescuento().getText());
         double total = Double.parseDouble(Rfactura_view.getJlabeltotal().getText());
-
+        
+        Factura factura = new Factura();
+        fac = fac+1;
+        factura.setDescuento(descuento);
+        factura.setFecha(xmlGregorianCalendar);
+        factura.setIdFactura(fac);
+        factura.set
         // Get the table model
         DefaultTableModel tableModel = (DefaultTableModel) Rfactura_view.getTblPROD().getModel();
 
@@ -145,35 +154,32 @@ public class Controller_RFactura {
         vision.getBtnVolver().addActionListener(l -> vision.dispose());
     }
 
-   public void mostrarproductostabla() {
-    try {
-        // Obtén los datos de los componentes del JFrame
-        String idProducto = vision.getJlabelidproducto().getText();
-        int cantidad = (Integer) vision.getJSpinnercantidad().getValue();
-        double precioU = Double.parseDouble(vision.getTxtprecioU().getText());
+    public void mostrarproductostabla() {
+        try {
+            // Obtén los datos de los componentes del JFrame
+            String idProducto = vision.getJlabelidproducto().getText();
+            int cantidad = (Integer) vision.getJSpinnercantidad().getValue();
+            double precioU = Double.parseDouble(vision.getTxtprecioU().getText());
 
-        // Calcula el subtotal
-        double subtotal = calcularsubtotal();
+            // Calcula el subtotal
+            double subtotal = calcularsubtotal();
 
-        // Crea un nuevo objeto de fila con los datos
-        Object[] data = new Object[] {idProducto, cantidad, precioU, subtotal};
+            // Crea un nuevo objeto de fila con los datos
+            Object[] data = new Object[]{idProducto, cantidad, precioU, subtotal};
 
-        // Obtiene el modelo de la tabla
-        DefaultTableModel modeloTabla = (DefaultTableModel) Rfactura_view.getTblPROD().getModel();
+            // Obtiene el modelo de la tabla
+            DefaultTableModel modeloTabla = (DefaultTableModel) Rfactura_view.getTblPROD().getModel();
 
-        // Agrega la nueva fila al modelo de la tabla
-        modeloTabla.addRow(data);
+            // Agrega la nueva fila al modelo de la tabla
+            modeloTabla.addRow(data);
 
-        // Actualiza el total
-        double total = calcularTotal(modeloTabla);
-        Rfactura_view.getJlabeltotal().setText(String.valueOf(total));
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(vision, "Error al mostrar los productos en la tabla: " + e.getMessage());
+            // Actualiza el total
+            double total = calcularTotal(modeloTabla);
+            Rfactura_view.getJlabeltotal().setText(String.valueOf(total));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(vision, "Error al mostrar los productos en la tabla: " + e.getMessage());
+        }
     }
-}
-
-
-
 
     public double calcularTotal(DefaultTableModel modeloTabla) {
         double total = 0.0;
