@@ -35,7 +35,7 @@ public class Register_View extends javax.swing.JFrame {
         jLabelTitulo = new javax.swing.JLabel();
         btnRegistrar = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        txtEmail = new javax.swing.JTextField();
+        txtusuario = new javax.swing.JTextField();
         jLabel10 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox<>();
         btnVolver = new javax.swing.JButton();
@@ -94,7 +94,7 @@ public class Register_View extends javax.swing.JFrame {
 
         jLabel9.setText("Cedula:");
         jPanel1.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 200, 59, -1));
-        jPanel1.add(txtEmail, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 169, -1));
+        jPanel1.add(txtusuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 320, 169, -1));
 
         jLabel10.setText("Confirmar Contraseña:");
         jPanel1.add(jLabel10, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 410, -1, -1));
@@ -145,11 +145,11 @@ public class Register_View extends javax.swing.JFrame {
     }
 
     public JTextField getTxtEmail() {
-        return txtEmail;
+        return txtusuario;
     }
 
     public void setTxtEmail(JTextField txtEmail) {
-        this.txtEmail = txtEmail;
+        this.txtusuario = txtEmail;
     }
 
     public JTextField getTxtNTelefono() {
@@ -243,6 +243,14 @@ public class Register_View extends javax.swing.JFrame {
     public void setBtnVolver(JButton btnVolver) {
         this.btnVolver = btnVolver;
     }
+
+    public JTextField getTxtusuario() {
+        return txtusuario;
+    }
+
+    public void setTxtusuario(JTextField txtusuario) {
+        this.txtusuario = txtusuario;
+    }
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -264,11 +272,11 @@ public class Register_View extends javax.swing.JFrame {
     private javax.swing.JLabel lblmensajeerror;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JTextField txtDirreccion;
-    private javax.swing.JTextField txtEmail;
     private javax.swing.JTextField txtNTelefono;
     private javax.swing.JTextField txtapellido;
     private javax.swing.JTextField txtconfirmpassword;
     private javax.swing.JTextField txtnombre;
     private javax.swing.JTextField txtpassword;
+    private javax.swing.JTextField txtusuario;
     // End of variables declaration//GEN-END:variables
 }

@@ -95,16 +95,16 @@ public class Controller_Register {
 
     public void RegistrarseBtn() {
 
-        // Obtener los datos del usuario
-        int idUsuario = obtenerProximoIdUsuario(); // Debes implementar tu propia lógica para obtener el próximo ID
-        int idPersona = obtenerProximoIdPersona(); // Debes implementar tu propia lógica para obtener el próximo ID
-        String nombreUsuario = register_View.getTxtuser().getText();
-        String contraseña = register_View.getTxtpassword().getText();
+       
+          int idUsuario = obtenerProximoIdUsuario(); 
+        int idPersona = obtenerProximoIdPersona(); 
+        String nombreUsuario = register_View.getTxtusuario().getText();
+        String contraseña = new String(register_View.getTxtpassword().getText());
         String nombrePersona = register_View.getTxtnombre().getText();
         String apellidoPersona = register_View.getTxtapellido().getText();
         String dniPersona = register_View.getTxtCedula().getText();
-        String celularPersona = register_View.getTxtNTelefono().getText();
-        String correoPersona = register_View.getTxtemail().getText();
+        String celularPersona = register_View.getTxtDirreccion().getText();
+        String correoPersona = register_View.getTxtNTelefono().getText();
 
         // Validar nombre y apellido (solo letras)
 //        if (!esCadenaValida(nombrePersona) || !esCadenaValida(apellidoPersona)) {
@@ -134,18 +134,24 @@ public class Controller_Register {
         boolean estadoRol = true;
         System.out.println(idUsuario + " idUsuario");
         System.out.println(idPersona + " idPersona");
-        boolean registroExitoso = app.registrarUsuarioPersonaRol(idUsuario, idPersona, nombreUsuario, contraseña, nombrePersona, apellidoPersona, dniPersona, celularPersona, correoPersona, idRol, nombreRol, estadoRol);
 
-        if (registroExitoso) {
-            JOptionPane.showMessageDialog(null, "Registro exitoso.");
-            register_View.dispose();
-            Login_View login_View = new Login_View();
-            Controller_Login login = new Controller_Login(login_View);
-            login.IniciarControl();
-        } else {
-            JOptionPane.showMessageDialog(null, "Error en el registro. Por favor, revise sus datos.");
-            // Limpiar campos de texto
-            //limpiarCamposTexto();
+        try {
+            boolean registroExitoso = app.registrarUsuarioPersonaRol(idUsuario, idPersona, nombreUsuario, contraseña, nombrePersona, apellidoPersona, dniPersona, celularPersona, correoPersona, idRol, nombreRol, estadoRol);
+
+            if (registroExitoso) {
+                JOptionPane.showMessageDialog(null, "Registro exitoso.");
+                register_View.dispose();
+                Login_View login_View = new Login_View();
+                Controller_Login login = new Controller_Login(login_View);
+                login.IniciarControl();
+            } else {
+                System.out.println("error");
+                // Limpiar campos de texto
+                 limpiarCamposTexto();
+            }
+        } catch (Exception e) {
+            e.printStackTrace(); // Puedes imprimir el seguimiento de la pila para depurar
+            JOptionPane.showMessageDialog(null, "Error durante el registro: " + e.getMessage());
         }
 
     }
@@ -206,5 +212,14 @@ public class Controller_Register {
         // Utiliza una expresión regular para validar que la cadena contenga solo letras
         String regexLetras = "^[a-zA-Z]+$";
         return cadena.matches(regexLetras);
+    }
+      private void limpiarCamposTexto() {
+        register_View.getTxtnombre().setText("");
+        register_View.getTxtpassword().setText("");
+        register_View.getTxtnombre().setText("");
+        register_View.getTxtapellido().setText("");
+        register_View.getTxtCedula().setText("");
+        register_View.getTxtNTelefono().setText("");
+        register_View.getTxtemail().setText("");
     }
 }

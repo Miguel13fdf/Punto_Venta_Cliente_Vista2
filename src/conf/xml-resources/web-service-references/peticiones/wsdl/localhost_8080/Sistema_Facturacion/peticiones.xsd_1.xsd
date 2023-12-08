@@ -44,6 +44,10 @@
 
 <xs:element name="loginUsuarioResponse" type="tns:loginUsuarioResponse"/>
 
+<xs:element name="obtenerTipoPagoPorId" type="tns:obtenerTipoPagoPorId"/>
+
+<xs:element name="obtenerTipoPagoPorIdResponse" type="tns:obtenerTipoPagoPorIdResponse"/>
+
 <xs:element name="persona" type="tns:persona"/>
 
 <xs:element name="registrarCompetenciaRol" type="tns:registrarCompetenciaRol"/>
@@ -317,6 +321,18 @@
 <xs:complexType name="registrarUsuarioPersonaRolResponse">
 <xs:sequence>
 <xs:element name="return" type="xs:boolean" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerTipoPagoPorId">
+<xs:sequence>
+<xs:element name="idTipoPago" type="xs:int" minOccurs="0"/>
+</xs:sequence>
+</xs:complexType>
+
+<xs:complexType name="obtenerTipoPagoPorIdResponse">
+<xs:sequence>
+<xs:element name="return" type="tns:tipoPago" minOccurs="0"/>
 </xs:sequence>
 </xs:complexType>
 

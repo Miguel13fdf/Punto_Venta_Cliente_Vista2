@@ -40,6 +40,12 @@
 <message name="buscarProductoPorIdResponse">
 <part name="parameters" element="tns:buscarProductoPorIdResponse"/>
 </message>
+<message name="obtenerTipoPagoPorId">
+<part name="parameters" element="tns:obtenerTipoPagoPorId"/>
+</message>
+<message name="obtenerTipoPagoPorIdResponse">
+<part name="parameters" element="tns:obtenerTipoPagoPorIdResponse"/>
+</message>
 <message name="hello">
 <part name="parameters" element="tns:hello"/>
 </message>
@@ -143,6 +149,10 @@
 <input wsam:Action="http://ws/peticiones/buscarProductoPorIdRequest" message="tns:buscarProductoPorId"/>
 <output wsam:Action="http://ws/peticiones/buscarProductoPorIdResponse" message="tns:buscarProductoPorIdResponse"/>
 </operation>
+<operation name="obtenerTipoPagoPorId">
+<input wsam:Action="http://ws/peticiones/obtenerTipoPagoPorIdRequest" message="tns:obtenerTipoPagoPorId"/>
+<output wsam:Action="http://ws/peticiones/obtenerTipoPagoPorIdResponse" message="tns:obtenerTipoPagoPorIdResponse"/>
+</operation>
 <operation name="hello">
 <input wsam:Action="http://ws/peticiones/helloRequest" message="tns:hello"/>
 <output wsam:Action="http://ws/peticiones/helloResponse" message="tns:helloResponse"/>
@@ -244,6 +254,15 @@
 </output>
 </operation>
 <operation name="buscarProductoPorId">
+<soap:operation soapAction=""/>
+<input>
+<soap:body use="literal"/>
+</input>
+<output>
+<soap:body use="literal"/>
+</output>
+</operation>
+<operation name="obtenerTipoPagoPorId">
 <soap:operation soapAction=""/>
 <input>
 <soap:body use="literal"/>

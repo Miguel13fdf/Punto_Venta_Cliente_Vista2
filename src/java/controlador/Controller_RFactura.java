@@ -19,6 +19,7 @@ import vistas.RevisionProductos_Voew;
 import ws.Clasificacion;
 import ws.Factura;
 import ws.ItemFactura;
+import ws.Persona;
 import ws.Peticiones;
 import ws.Peticiones_Service;
 import ws.Producto;
@@ -54,63 +55,64 @@ public class Controller_RFactura {
 
     }
 
-    public void registrar() {
+     public void registrar() {
+    try {
         String ruc = Rfactura_view.getTxtruc().getText();
         int idpersona = Integer.valueOf(Rfactura_view.getJlabelidpersona().getText());
+          int idtipopago = Integer.valueOf(Rfactura_view.getJlabelidpersona().getText());
         Date selecteddate = Rfactura_view.getjDateChooser1().getDate();
         String dateString = "";
 
         if (selecteddate != null) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             dateString = sdf.format(selecteddate);
-           
-
         } else {
             JOptionPane.showMessageDialog(Rfactura_view, "Elige una fecha correcta");
-            return; // Exit the method if no date is selected
+            return;
         }
+
         XMLGregorianCalendar xmlGregorianCalendar = DatatypeFactory.newInstance().newXMLGregorianCalendar(dateString);
         double descuento = Double.parseDouble(Rfactura_view.getTxtdescuento().getText());
         double total = Double.parseDouble(Rfactura_view.getJlabeltotal().getText());
-        
+
         Factura factura = new Factura();
-        fac = fac+1;
-        factura.setDescuento(descuento);
-        factura.setFecha(xmlGregorianCalendar);
+        fac = fac + 1;
         factura.setIdFactura(fac);
-        factura.set
-        // Get the table model
+        factura.setFecha(xmlGregorianCalendar);
+        factura.setDescuento(descuento);
+
         DefaultTableModel tableModel = (DefaultTableModel) Rfactura_view.getTblPROD().getModel();
-
-        // Create a list to store items
         ArrayList<ItemFactura> itemsFactura = new ArrayList<>();
-
-        // Iterate over the rows of the table
+       
         for (int i = 0; i < tableModel.getRowCount(); i++) {
-            int idProducto = Integer.parseInt(tableModel.getValueAt(i, 0).toString()); // Assuming the ID is in the first column
-            int cantidad = Integer.parseInt(tableModel.getValueAt(i, 4).toString()); // Assuming the quantity is in the fifth column
-            double subtotal = Double.parseDouble(tableModel.getValueAt(i, 5).toString()); // Assuming the subtotal is in the sixth column
+            int idProducto = Integer.parseInt(tableModel.getValueAt(i, 0).toString());
+            int cantidad = Integer.parseInt(tableModel.getValueAt(i, 1).toString());
+            double precioU = Double.parseDouble(tableModel.getValueAt(i, 2).toString());
+            double subtotal = Double.parseDouble(tableModel.getValueAt(i, 3).toString());
 
-            // Create an ItemFactura object for each row
             ItemFactura itemFactura = new ItemFactura();
+            item = item + 1;
             itemFactura.setIdItemFactura(item);
             itemFactura.setIdFcatura(factura);
-            itemFactura.setIdProducto(idProducto);
+            itemFactura.setIdProducto(peti.buscarProductoPorId(idProducto));
             itemFactura.setCantidad(cantidad);
             itemFactura.setSubtotal(subtotal);
 
-            // Add the ItemFactura object to the list
             itemsFactura.add(itemFactura);
         }
 
-        // Call the service method to register the factura with items
-        peti.registrarFacturaConItems(factura, ruc, idpersona, dateString, 1, descuento, total, itemsFactura);
+        peti.registrarFacturaConItems(fac, ruc, peti.buscarP(ruc), dateString,  peti.obtenerTipoPagoPorId(idtipopago), descuento, total, itemsFactura);
+        JOptionPane.showMessageDialog(Rfactura_view, "Factura registrada con éxito.");
+        Rfactura_view.dispose();
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(Rfactura_view, "Error al registrar la factura: " + e.getMessage());
     }
+}
 
-    public void buscarruc() {
+
+     public void buscarruc() {
         String ruc = Rfactura_view.getTxtruc().getText();
-
-        int idpersona = peti.buscarP(ruc);
+        Persona idpersona = peti.buscarP(ruc);
         Rfactura_view.getJlabelidpersona().setText(String.valueOf(idpersona));
     }
 
