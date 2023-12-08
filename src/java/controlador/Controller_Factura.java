@@ -1,6 +1,6 @@
 package controlador;
 
-import vistas.Factura_View;
+import vistas.Factura_Viewer;
 import vistas.Login_View;
 import vistas.RFacturas_view;
 
@@ -9,9 +9,9 @@ import vistas.RFacturas_view;
  * @author joelu
  */
 public class Controller_Factura {
-    Factura_View facturaview;
+    Factura_Viewer facturaview;
 
-    public Controller_Factura(Factura_View facturaview) {
+    public Controller_Factura(Factura_Viewer facturaview) {
         this.facturaview = facturaview;
     }
     
